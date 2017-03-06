@@ -5,17 +5,32 @@
  */
 package coincheck;
 
+import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  *
  * @author Administrator
  */
-public class Order {
+public class Order extends CoinCheck{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private HttpsURLConnection client;
+
+    public Order(String accessKey, String secretKey) throws Exception {
+        super(accessKey, secretKey);
+        
     }
     
+    /**
+     * Create a order object with given parameters.
+     * In live mode, this issues a transaction.
+     */
+    public void create(Map<String, String> paramData)
+    {
+//        $arr = $params;
+//        $rawResponse = $this->client->request('post', 'api/exchange/orders', $arr);
+//        return $rawResponse;
+        
+    }
+   
 }
