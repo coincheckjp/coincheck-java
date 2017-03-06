@@ -18,4 +18,8 @@ public class Account {
         // TODO code application logic here
     }
     
+    public Account() {
+        
+    }
+    
 }
