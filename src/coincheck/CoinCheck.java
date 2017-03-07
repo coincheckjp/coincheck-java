@@ -7,86 +7,77 @@ package coincheck;
 
 import java.util.HashMap;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import javax.net.ssl.HttpsURLConnection;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 /**
  *
  * @author Administrator
  */
 public class CoinCheck {
-
-    private final String BASE_API = "https://coincheck.jp/";
+    
+     private final String BASE_API = "https://coincheck.jp/";
 
     private String internalEncoding = "UTF-8";
 
-    private HttpsURLConnection con;
+    private HttpClient client;
 
     private String accessKey;
 
     private String secretKey;
-    
-    private final String USER_AGENT = "Mozilla/5.0";
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws Exception {
-        // TODO code application logic here
-        Map<String, String> paramData = new HashMap<String, String>();
-        paramData.put("name", "Order #1995");
-        paramData.put("email", "lammn90@gmail.com");
-        paramData.put("currency", "JPY");
-        paramData.put("amount", "1");
-        //paramData.put("success_url", "");
-        paramData.put("max_times", "1");
-
-        CoinCheck coinCheck = new CoinCheck("345nRE4Z8ShzPPCN", "PmFURn7vBaWQ4pteEKw8xYZqZ7LYCW7p");
-        coinCheck.request("GET", "api/accounts/balance", paramData);
-
+        CoinCheck http = new CoinCheck("oyme8ECw_YZxEb2M", "WDCxxHJ4EHZZg8zLFvlwYsEj6p6hSANT");
+        Map<String, String> params = new HashMap<>();
+        http.sendGet("api/accounts/balance", params);
+        http.sendPost();
     }
-
+    
     public CoinCheck(String accessKey, String secretKey) throws Exception {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
-        Map<String, String> paramData = new HashMap<String, String>();
-        URL obj = new URL(BASE_API + "ec/buttons");
-        this.con = (HttpsURLConnection) obj.openConnection();
-        //this.con.setRequestMethod("GET");
-        this.con.setRequestProperty("Content-Type", "application/json");
-        this.con.setRequestProperty("ACCESS-KEY", this.accessKey);
-        //add request header
-        this.con.setRequestProperty("User-Agent", USER_AGENT);
-//        setSignature(BASE_API, paramData);
-//        // Send post request
-//        int responseCode = con.getResponseCode();
-//        System.out.println("Response Code : " + responseCode);
-//        BufferedReader in = new BufferedReader(
-//                new InputStreamReader(con.getInputStream()));
-//        String inputLine;
-//        StringBuffer response = new StringBuffer();
-//
-//        while ((inputLine = in.readLine()) != null) {
-//            response.append(inputLine);
-//        }
-//        in.close();
-//
-//        //print result
-//        System.out.println(response.toString());
+        HttpClient client = new DefaultHttpClient();
+        this.client = client;
     }
 
-    public void setSignature(String path, Map<String, String> params) throws Exception {
-        long nonce = System.currentTimeMillis();
+    // HTTP GET request
+    public String sendGet(String path, Map<String, String> params) throws Exception {
         String url = BASE_API + path;
+        HttpGet request = new HttpGet(url);
+        long nonce = System.currentTimeMillis();
         String message = nonce + url + httpBuildQuery(params);
         String signature = HmacSha256.createHmacSha256(message, this.secretKey);
-        this.con.setRequestProperty("ACCESS-NONCE", String.valueOf(nonce));
-        this.con.setRequestProperty("ACCESS-SIGNATURE", signature);
+        // add request header
+        request.addHeader("Content-Type", "application/json");
+        request.addHeader("ACCESS-KEY", this.accessKey);
+        request.addHeader("ACCESS-NONCE", String.valueOf(nonce));
+        request.addHeader("ACCESS-SIGNATURE", signature);
+        HttpResponse response = this.client.execute(request);
+
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        System.out.println(result.toString());
+        
+        return result.toString();
     }
 
     private String httpBuildQuery(Map<String, String> params) throws UnsupportedEncodingException {
@@ -103,35 +94,35 @@ public class CoinCheck {
 
         return result;
     }
-
+    
     // HTTP POST request
-    public String request(String method, String path, Map<String, String> paramData) throws Exception {
-        //add request header
-        con.setRequestMethod(method);
-        setSignature(path, paramData);
+    public void sendPost() throws Exception {
+        String url = "https://selfsolve.apple.com/wcResults.do";
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+        // add header
+        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        urlParameters.add(new BasicNameValuePair("sn", "C02G8416DRJM"));
+        urlParameters.add(new BasicNameValuePair("cn", ""));
+        urlParameters.add(new BasicNameValuePair("locale", ""));
+        urlParameters.add(new BasicNameValuePair("caller", ""));
+        urlParameters.add(new BasicNameValuePair("num", "12345"));
 
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(httpBuildQuery(paramData));
-        wr.flush();
-        wr.close();
+        post.setEntity(new UrlEncodedFormEntity(urlParameters));
+        HttpResponse response = client.execute(post);
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + post.getEntity());
+        System.out.println("Response Code : "
+                + response.getStatusLine().getStatusCode());
 
-        int responseCode = con.getResponseCode();
-        System.out.println("Response Code : " + responseCode);
+        BufferedReader rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
         }
-        in.close();
-        //print result
-        System.out.println(response.toString());
-
-        return response.toString();
+        System.out.println(result.toString());
     }
-
 }
