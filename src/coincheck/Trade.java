@@ -5,17 +5,33 @@
  */
 package coincheck;
 
+import java.util.Map;
+import org.json.JSONObject;
+
 /**
  *
  * @author Administrator
  */
 public class Trade {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private CoinCheck client;
+
+    public Trade(CoinCheck client) {
+        this.client = client;
     }
-    
+
+    /**
+     * 最新の取引履歴を取得できます。
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject all(Map<String, String> params) throws Exception {
+        String response = this.client.sendGet("api/trades", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
 }

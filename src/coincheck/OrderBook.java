@@ -5,17 +5,33 @@
  */
 package coincheck;
 
+import java.util.Map;
+import org.json.JSONObject;
+
 /**
  *
  * @author Administrator
  */
 public class OrderBook {
 
+   private CoinCheck client;
+
+    public OrderBook(CoinCheck client) {
+        this.client = client;
+    }
+
     /**
-     * @param args the command line arguments
+     * 板情報を取得できます。
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public JSONObject positions(Map<String, String> params) throws Exception {
+        String response = this.client.sendGet("api/order_books", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
     }
     
 }

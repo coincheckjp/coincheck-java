@@ -5,17 +5,33 @@
  */
 package coincheck;
 
+import java.util.Map;
+import org.json.JSONObject;
+
 /**
  *
  * @author Administrator
  */
 public class Leverage {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private CoinCheck client;
+
+    public Leverage(CoinCheck client) {
+        this.client = client;
     }
-    
+
+    /**
+     * Get a leverage positions list.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject positions(Map<String, String> params) throws Exception {
+        String response = this.client.sendGet("api/exchange/leverage/positions", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
 }
