@@ -26,7 +26,6 @@ public class HmacSha256 {
             for (byte b : mac_bytes) {
                 sb.append(String.format("%02x", b & 0xff));
             }
-            System.out.println(sb);
             
             return sb.toString();
             
