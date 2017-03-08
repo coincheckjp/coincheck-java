@@ -5,17 +5,62 @@
  */
 package coincheck;
 
+import java.util.List;
+import java.util.Map;
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
+
 /**
  *
  * @author Administrator
  */
 public class Borrow {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private CoinCheck client;
+
+    public Borrow(CoinCheck client) {
+        this.client = client;
     }
-    
+
+    /**
+     * Create a new Borrow.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject create(List<NameValuePair> params) throws Exception {
+        String response = this.client.sendPost("api/lending/borrows", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
+    /**
+     * Get a borrowing list.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject all(Map<String, String> params) throws Exception {
+        String response = this.client.sendGet("api/lending/borrows/matches", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
+    /**
+     * Based on this id, you can repay.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject repay(Map<String, String> params) throws Exception {
+        String response = this.client.sendGet("api/bank_accounts", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
 }

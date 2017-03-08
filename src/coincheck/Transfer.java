@@ -5,17 +5,48 @@
  */
 package coincheck;
 
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
+
 /**
  *
  * @author Administrator
  */
 public class Transfer {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    private CoinCheck client;
+
+    public Transfer(CoinCheck client) {
+        this.client = client;
     }
-    
+
+    /**
+     * Transfer Balance to Leverage.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject to_leverage(List<NameValuePair> params) throws Exception {
+        String response = this.client.sendPost("api/exchange/transfers/to_leverage", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
+    /**
+     * Transfer Balance from Leverage.
+     *
+     * @param params
+     * @throws java.lang.Exception
+     *
+     * @return JSONObject
+     */
+    public JSONObject from_leverage(List<NameValuePair> params) throws Exception {
+        String response = this.client.sendPost("aapi/exchange/transfers/from_leverage", params);
+        JSONObject jsonObj = new JSONObject(response);
+        return jsonObj;
+    }
+
 }
