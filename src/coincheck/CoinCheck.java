@@ -37,6 +37,8 @@ public class CoinCheck {
     private String accessKey;
 
     private String secretKey;
+    
+    private Account account;
 
     public static void main(String[] args) throws Exception {
         CoinCheck http = new CoinCheck("oyme8ECw_YZxEb2M", "WDCxxHJ4EHZZg8zLFvlwYsEj6p6hSANT");
@@ -50,6 +52,7 @@ public class CoinCheck {
         this.secretKey = secretKey;
         HttpClient client = new DefaultHttpClient();
         this.client = client;
+        this.account = new Account(this);
     }
 
     // HTTP GET request
