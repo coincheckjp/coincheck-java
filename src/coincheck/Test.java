@@ -29,10 +29,10 @@ public class Test {
         Map<String, String> params = new HashMap<>();
         JSONObject response = client.account().info(params);
         List<NameValuePair> bankAccount = new ArrayList<>();
-        bankAccount.add(new BasicNameValuePair("bank_name", "aaabbb"));
-        bankAccount.add(new BasicNameValuePair("branch_name", "bbbbbb"));
+        bankAccount.add(new BasicNameValuePair("bank_name", "熊本"));
+        bankAccount.add(new BasicNameValuePair("branch_name", "田中"));
         bankAccount.add(new BasicNameValuePair("bank_account_type", "futsu"));
-        bankAccount.add(new BasicNameValuePair("number", "1234567"));
+        bankAccount.add(new BasicNameValuePair("number", "0123456"));
         bankAccount.add(new BasicNameValuePair("name", "カタカナ")); 
         
         client.bankAccount().create(bankAccount);
