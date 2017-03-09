@@ -143,20 +143,19 @@ public class CoinCheck {
         HttpPost post = new HttpPost(url);
         Map<String, String> param = new HashMap<>();
         long nonce = System.currentTimeMillis();
-        String message = nonce + url + httpBuildQuery(param);
+        String message = nonce + url;
         String signature = HmacSha256.createHmacSha256(message, this.secretKey);
 
-        String json = "{'bank_name':'ggg','branch_name':'vvv', 'bank_account_type':'fufu', 'number':'1234567', 'name':'カタカナ'}";
+        String json = "{\"bank_name\":\"gggggg\",\"branch_name\":\"vvvvvvv\", \"bank_account_type\":\"futsu\", \"number\":\"1234567\", \"name\":\"カタカナ\"}";
         StringEntity entity = new StringEntity(json);
-        post.setEntity(entity);
-        // add request header
-        post.setHeader("Accept", "application/json");
+        
+         //add request header
         post.addHeader("Content-Type", "application/json");
         post.addHeader("ACCESS-KEY", this.accessKey);
         post.addHeader("ACCESS-NONCE", String.valueOf(nonce));
         post.addHeader("ACCESS-SIGNATURE", signature);
-
-        // post.setEntity(new UrlEncodedFormEntity(params));
+        post.setEntity(entity);
+         //post.setEntity(new UrlEncodedFormEntity(params));
         HttpResponse response = client.execute(post);
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Response Code : " + response.getStatusLine().getStatusCode());

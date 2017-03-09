@@ -1,14 +1,17 @@
 import com.google.api.client.http.*;
 import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.apache.commons.codec.binary.Hex;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Api {
@@ -16,10 +19,10 @@ public class Api {
     private String apiSecret;
 
     public static void main(String[] args) {
-        String key = "API_KEY";
-        String secret = "API_SECRET";
+        String key = "oyme8ECw_YZxEb2M";
+        String secret = "WDCxxHJ4EHZZg8zLFvlwYsEj6p6hSANT";
         Api api = new Api(key, secret);
-        System.out.println(api.getTicker());
+        //System.out.println(api.getTicker());
         System.out.println(api.getBalance());
     }
 
@@ -29,13 +32,13 @@ public class Api {
     }
 
     public String getTicker() {
-        String url = "https://coincheck.com/api/accounts/ticker";
+        String url = "https://coincheck.jp/api/accounts/ticker";
         String jsonString = requestByUrlWithHeader(url, createHeader(url));
         return jsonString;
     }
 
     public String getBalance() {
-        String url = "https://coincheck.com/api/accounts/balance";
+        String url = "https://coincheck.jp/api/bank_accounts";
         String jsonString = requestByUrlWithHeader(url, createHeader(url));
         return jsonString;
     }
@@ -55,26 +58,44 @@ public class Api {
     }
 
     private String createNonce() {
-        long currentUnixTime = System.currentTimeMillis() / 1000L;
+        long currentUnixTime = System.currentTimeMillis();
         String nonce = String.valueOf(currentUnixTime);
         return nonce;
     }
 
-    private String requestByUrlWithHeader(String url, final Map headers){
+    private String requestByUrlWithHeader(String url, Map headers){
         ApacheHttpTransport transport = new ApacheHttpTransport();
         HttpRequestFactory factory = transport.createRequestFactory((final HttpRequest request) -> {
-            request.setConnectTimeout(0);
-            request.setReadTimeout(0);
-            request.setParser(new JacksonFactory().createJsonObjectParser());
+            //request.setConnectTimeout(0);
+            //request.setReadTimeout(0);
+            //request.setParser(new JacksonFactory().createJsonObjectParser());
             final HttpHeaders httpHeaders = new HttpHeaders();
-            for (Map.Entry e : headers.entrySet()) {
-                httpHeaders.set(e.getKey(), e.getValue());
+            Iterator it = headers.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                //System.out.println(pair.getKey() + " = " + pair.getValue());
+                it.remove(); // avoids a ConcurrentModificationException
+                httpHeaders.set((String) pair.getKey(), pair.getValue());
             }
             request.setHeaders(httpHeaders);
         });
         String jsonString;
         try {
-            HttpRequest request = factory.buildGetRequest(new GenericUrl(url));
+            //JacksonFactory jsonFactory = new JacksonFactory();
+            Map<String, String> json = new HashMap<>();
+            json.put("bank_name", "aaaaaaa");
+            json.put("branch_name", "ccccddd");
+            json.put("bank_account_type", "futsu");
+            json.put("number", "0123456");
+            json.put("name", "カタカナ");
+            String requestBody = "{\"bank_name\":\"gggggg\",\"branch_name\":\"vvvvvvv\", \"bank_account_type\":\"futsu\", \"number\":\"1234567\", \"name\":\"カタカナ\"}";
+            final HttpContent content = new JsonHttpContent(new JacksonFactory() , json);
+            //HttpRequest request = factory.buildGetRequest(new GenericUrl(url));
+            HttpRequest request = factory.buildPostRequest(new GenericUrl(url), content);
+            request.getHeaders().setContentType("application/json; charset=utf-8");
+            //System.out.println(request.getHeaders().get("ACCESS-KEY"));
+            //request.getHeaders().setAccept("application/json");
+            
             HttpResponse response = request.execute();
             jsonString = response.parseAsString();
         } catch (IOException e) {
