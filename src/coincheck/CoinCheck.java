@@ -141,7 +141,7 @@ public class CoinCheck {
         String message = nonce + url + httpBuildQuery(param);
         String signature = HmacSha256.createHmacSha256(message, this.secretKey);
         
-        String json = "{'bank_name':'ggg','branch_name':'vvv', 'bank_account_type':'fufu', 'number':'123456', 'name':'ddd'}";
+        String json = "{'bank_name':'ggg','branch_name':'vvv', 'bank_account_type':'fufu', 'number':'1234567', 'name':'カタカナ'}";
         StringEntity entity = new StringEntity(json);
         post.setEntity(entity);
         // add request header
