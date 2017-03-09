@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
-import static org.apache.http.HttpHeaders.USER_AGENT;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -30,12 +29,13 @@ public class Test {
         Map<String, String> params = new HashMap<>();
         JSONObject response = client.account().info(params);
         List<NameValuePair> bankAccount = new ArrayList<>();
-        bankAccount.add(new BasicNameValuePair("bank_name", "aaaa"));
-        bankAccount.add(new BasicNameValuePair("branch_name", "nnn"));
-        bankAccount.add(new BasicNameValuePair("bank_account_type", "futu"));
-        bankAccount.add(new BasicNameValuePair("number", "123456"));
-        bankAccount.add(new BasicNameValuePair("name", "ccc ccc")); 
+        bankAccount.add(new BasicNameValuePair("bank_name", "aaabbb"));
+        bankAccount.add(new BasicNameValuePair("branch_name", "bbbbbb"));
+        bankAccount.add(new BasicNameValuePair("bank_account_type", "futsu"));
+        bankAccount.add(new BasicNameValuePair("number", "1234567"));
+        bankAccount.add(new BasicNameValuePair("name", "カタカナ")); 
         
         client.bankAccount().create(bankAccount);
+        client.bankAccount().all(params);
     }
 }

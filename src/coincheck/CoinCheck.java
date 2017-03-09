@@ -5,7 +5,16 @@
  */
 package coincheck;
 
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.jackson.JacksonFactory;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
@@ -18,14 +27,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 /**
@@ -37,7 +43,7 @@ public class CoinCheck {
     private final String BASE_API = "https://coincheck.jp/";
 
     private String internalEncoding = "UTF-8";
-    
+
     private final String USER_AGENT = "Mozilla/5.0";
 
     private HttpClient client;
@@ -73,8 +79,7 @@ public class CoinCheck {
     public CoinCheck(String accessKey, String secretKey) throws Exception {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
-        HttpClient client = new DefaultHttpClient();
-        this.client = client;
+        this.client = new DefaultHttpClient();
         this.account = new Account(this);
         this.bankAccount = new BankAccount(this);
         this.borrow = new Borrow(this);
@@ -134,13 +139,13 @@ public class CoinCheck {
 
     // HTTP POST request
     public String sendPost(String path, List<NameValuePair> params) throws Exception {
-        String url = BASE_API + path;
+        String url = BASE_API + path;        
         HttpPost post = new HttpPost(url);
         Map<String, String> param = new HashMap<>();
         long nonce = System.currentTimeMillis();
         String message = nonce + url + httpBuildQuery(param);
         String signature = HmacSha256.createHmacSha256(message, this.secretKey);
-        
+
         String json = "{'bank_name':'ggg','branch_name':'vvv', 'bank_account_type':'fufu', 'number':'1234567', 'name':'カタカナ'}";
         StringEntity entity = new StringEntity(json);
         post.setEntity(entity);
@@ -150,8 +155,8 @@ public class CoinCheck {
         post.addHeader("ACCESS-KEY", this.accessKey);
         post.addHeader("ACCESS-NONCE", String.valueOf(nonce));
         post.addHeader("ACCESS-SIGNATURE", signature);
-       
-       // post.setEntity(new UrlEncodedFormEntity(params));
+
+        // post.setEntity(new UrlEncodedFormEntity(params));
         HttpResponse response = client.execute(post);
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
@@ -161,8 +166,6 @@ public class CoinCheck {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-        System.out.println(result.toString());
-
         return result.toString();
     }
 
