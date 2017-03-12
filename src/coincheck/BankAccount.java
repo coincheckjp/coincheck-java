@@ -5,9 +5,6 @@
  */
 package coincheck;
 
-import java.util.List;
-import java.util.Map;
-import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +13,7 @@ import org.json.JSONObject;
  */
 public class BankAccount {
 
-    private CoinCheck client;
+    private final CoinCheck client;
     
     public BankAccount(CoinCheck client) {
         this.client = client;
@@ -30,8 +27,8 @@ public class BankAccount {
      * 
      * @return JSONObject
      */
-    public JSONObject create(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/bank_accounts", params);
+    public JSONObject create(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/bank_accounts", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -39,13 +36,12 @@ public class BankAccount {
     /**
      * Get account information.
      *
-     * @param params
      * @throws java.lang.Exception
      * 
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/bank_accounts", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/bank_accounts", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -58,8 +54,8 @@ public class BankAccount {
      * 
      * @return JSONObject
      */
-    public JSONObject delete(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/bank_accounts", params);
+    public JSONObject delete(JSONObject params) throws Exception {
+        String response = this.client.request("DELETE", "api/bank_accounts/" + params.getString("id"), params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

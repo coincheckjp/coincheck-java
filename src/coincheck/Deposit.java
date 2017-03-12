@@ -5,9 +5,6 @@
  */
 package coincheck;
 
-import java.util.List;
-import java.util.Map;
-import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 /**
@@ -30,8 +27,8 @@ public class Deposit {
      *
      * @return JSONObject
      */
-    public JSONObject fast(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/lending/borrows", params);
+    public JSONObject fast(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/lending/borrows", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -39,13 +36,12 @@ public class Deposit {
     /**
      * You Get Deposit history
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/deposit_money", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/deposit_money", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

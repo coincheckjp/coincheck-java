@@ -29,7 +29,8 @@ public class Leverage {
      * @return JSONObject
      */
     public JSONObject positions(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/exchange/leverage/positions", params);
+        String stringParam = Util.httpBuildQuery(params);
+        String response = this.client.request("GET", "api/exchange/leverage/positions", stringParam);
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

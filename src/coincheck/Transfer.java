@@ -29,8 +29,8 @@ public class Transfer {
      *
      * @return JSONObject
      */
-    public JSONObject to_leverage(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/exchange/transfers/to_leverage", params);
+    public JSONObject to_leverage(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/exchange/transfers/to_leverage", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -43,8 +43,8 @@ public class Transfer {
      *
      * @return JSONObject
      */
-    public JSONObject from_leverage(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("aapi/exchange/transfers/from_leverage", params);
+    public JSONObject from_leverage(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "aapi/exchange/transfers/from_leverage", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

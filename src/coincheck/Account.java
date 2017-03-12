@@ -14,7 +14,7 @@ import org.json.JSONObject;
  */
 public class Account {
 
-    private CoinCheck client;
+    private final CoinCheck client;
 
     /**
      * @param args the command line arguments
@@ -30,13 +30,11 @@ public class Account {
     /**
      * Make sure a balance.
      *
-     * @param params
      * @throws java.lang.Exception
-     * @params Map<String, String>
      * @return JSONObject
      */
-    public JSONObject balance(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/accounts/balance", params);
+    public JSONObject balance() throws Exception {
+        String response = this.client.request("GET", "api/accounts/balance", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -44,13 +42,11 @@ public class Account {
     /**
      * Make sure a leverage balance.
      *
-     * @param params
      * @throws java.lang.Exception
-     * @params Map<String, String>
      * @return JSONObject
      */
-    public JSONObject leverageBalance(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/accounts/leverage_balance", params);
+    public JSONObject leverageBalance() throws Exception {
+        String response = this.client.request("GET", "api/accounts/leverage_balance", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -58,13 +54,11 @@ public class Account {
     /**
      * Get account information.
      *
-     * @param params
      * @throws java.lang.Exception
-     * @params Map<String, String>
      * @return JSONObject
      */
-    public JSONObject info(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/accounts/balance", params);
+    public JSONObject info() throws Exception {
+        String response = this.client.request("GET", "api/accounts/balance", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

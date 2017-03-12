@@ -23,13 +23,12 @@ public class Trade {
     /**
      * 最新の取引履歴を取得できます。
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/trades", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/trades", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

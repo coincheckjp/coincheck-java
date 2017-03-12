@@ -30,8 +30,8 @@ public class Withdraw {
      *
      * @return JSONObject
      */
-    public JSONObject create(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/withdraws", params);
+    public JSONObject create(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/withdraws", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -39,13 +39,12 @@ public class Withdraw {
     /**
      * Get a withdraw list.
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/withdraws", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/withdraws", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -58,8 +57,8 @@ public class Withdraw {
      *
      * @return JSONObject
      */
-    public JSONObject cancel(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/withdraws", params);
+    public JSONObject cancel(JSONObject params) throws Exception {
+        String response = this.client.request("DELETE", "api/withdraws", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

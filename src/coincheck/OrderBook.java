@@ -5,7 +5,6 @@
  */
 package coincheck;
 
-import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -28,8 +27,8 @@ public class OrderBook {
      *
      * @return JSONObject
      */
-    public JSONObject positions(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/order_books", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/order_books", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

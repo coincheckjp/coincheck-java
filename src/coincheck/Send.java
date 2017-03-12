@@ -30,8 +30,8 @@ public class Send {
      *
      * @return JSONObject
      */
-    public JSONObject create(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/send_money", params);
+    public JSONObject create(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/send_money", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -39,13 +39,12 @@ public class Send {
     /**
      * You Get Send history
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/send_money", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/send_money", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

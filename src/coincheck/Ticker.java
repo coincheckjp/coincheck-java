@@ -25,13 +25,12 @@ public class Ticker {
     /**
      * 各種最新情報を簡易に取得することができます。
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/ticker", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/ticker", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

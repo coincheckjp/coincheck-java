@@ -5,9 +5,6 @@
  */
 package coincheck;
 
-import java.util.List;
-import java.util.Map;
-import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 /**
@@ -30,8 +27,8 @@ public class Borrow {
      *
      * @return JSONObject
      */
-    public JSONObject create(List<NameValuePair> params) throws Exception {
-        String response = this.client.sendPost("api/lending/borrows", params);
+    public JSONObject create(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/lending/borrows", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -39,13 +36,12 @@ public class Borrow {
     /**
      * Get a borrowing list.
      *
-     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/lending/borrows/matches", params);
+    public JSONObject all() throws Exception {
+        String response = this.client.request("GET", "api/lending/borrows/matches", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -58,8 +54,8 @@ public class Borrow {
      *
      * @return JSONObject
      */
-    public JSONObject repay(Map<String, String> params) throws Exception {
-        String response = this.client.sendGet("api/bank_accounts", params);
+    public JSONObject repay(JSONObject params) throws Exception {
+        String response = this.client.request("POST", "api/bank_accounts", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
