@@ -5,8 +5,6 @@
  */
 package coincheck;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -26,8 +24,6 @@ public class Test {
         obj.put("name", "name___name");      
         //client.bankAccount().create(obj);
         client.bankAccount().all();
-        JSONObject bankDel = new JSONObject();
-        bankDel.put("id", "23278");
-        client.bankAccount().delete(bankDel);
+        client.bankAccount().delete("23329");
     }
 }

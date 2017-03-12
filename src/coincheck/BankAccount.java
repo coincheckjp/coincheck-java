@@ -49,15 +49,14 @@ public class BankAccount {
     /**
      * Delete a BankAccount.
      *
-     * @param params
+     * @param id
      * @throws java.lang.Exception
      * 
      * @return JSONObject
      */
-    public JSONObject delete(JSONObject params) throws Exception {
-        String response = this.client.request("DELETE", "api/bank_accounts/" + params.getString("id"), params.toString());
+    public JSONObject delete(String id) throws Exception {
+        String response = this.client.request("DELETE", "api/bank_accounts/" + id, "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
-    
 }
