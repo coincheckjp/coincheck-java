@@ -5,8 +5,6 @@
  */
 package coincheck;
 
-import java.util.List;
-import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 /**
@@ -44,7 +42,7 @@ public class Transfer {
      * @return JSONObject
      */
     public JSONObject from_leverage(JSONObject params) throws Exception {
-        String response = this.client.request("POST", "aapi/exchange/transfers/from_leverage", params.toString());
+        String response = this.client.request("POST", "api/exchange/transfers/from_leverage", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

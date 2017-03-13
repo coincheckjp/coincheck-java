@@ -37,12 +37,12 @@ public class Order {
      * cancel a created order specified by order id. Optional argument amount is
      * to refund partially.
      *
-     * @param params
+     * @param id
      * @return jsonObj
      * @throws java.lang.Exception
      */
-    public JSONObject cancel(JSONObject params) throws Exception {
-        String response = this.client.request("POST", "api/exchange/orders", params.toString());
+    public JSONObject cancel(String id) throws Exception {
+        String response = this.client.request("DELETE", "api/exchange/orders/" + id, "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
@@ -50,24 +50,22 @@ public class Order {
     /**
      * List charges filtered by params
      *
-     * @return jsonObj
+     * @return response
      * @throws java.lang.Exception
      */
-    public JSONObject opens() throws Exception {
-        String response = this.client.request("GET", "api/exchange/orders", "");
-        JSONObject jsonObj = new JSONObject(response);
-        return jsonObj;
+    public String opens() throws Exception {
+        String response = this.client.request("GET", "api/exchange/orders/opens", "");
+        return response;
     }
 
     /**
      * Get Order Transactions
      *
-     * @return jsonObj
+     * @return response
      * @throws java.lang.Exception
      */
-    public JSONObject transactions() throws Exception {
-        String response = this.client.request("GE", "api/exchange/orders/transactions", "");
-        JSONObject jsonObj = new JSONObject(response);
-        return jsonObj;
+    public String transactions() throws Exception {
+        String response = this.client.request("GET", "api/exchange/orders/transactions", "");
+        return response;
     }
 }

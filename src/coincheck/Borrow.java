@@ -40,7 +40,7 @@ public class Borrow {
      *
      * @return JSONObject
      */
-    public JSONObject all() throws Exception {
+    public JSONObject matches() throws Exception {
         String response = this.client.request("GET", "api/lending/borrows/matches", "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
@@ -55,7 +55,7 @@ public class Borrow {
      * @return JSONObject
      */
     public JSONObject repay(JSONObject params) throws Exception {
-        String response = this.client.request("POST", "api/bank_accounts", params.toString());
+        String response = this.client.request("POST", "api/lending/borrows/" + params.getString("id") + "/repay", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

@@ -5,6 +5,7 @@
  */
 package coincheck;
 
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -36,12 +37,14 @@ public class Deposit {
     /**
      * You Get Deposit history
      *
+     * @param params
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject all() throws Exception {
-        String response = this.client.request("GET", "api/deposit_money", "");
+    public JSONObject all(Map<String, String> params) throws Exception {
+        String stringParam = Util.httpBuildQuery(params);
+        String response = this.client.request("GET", "api/deposit_money", stringParam);
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }

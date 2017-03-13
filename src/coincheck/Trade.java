@@ -27,10 +27,9 @@ public class Trade {
      *
      * @return JSONObject
      */
-    public JSONObject all() throws Exception {
+    public String all() throws Exception {
         String response = this.client.request("GET", "api/trades", "");
-        JSONObject jsonObj = new JSONObject(response);
-        return jsonObj;
+        return response;
     }
 
 }

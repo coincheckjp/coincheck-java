@@ -70,9 +70,14 @@ public class CoinCheck {
         this.trade = new Trade(this);
         this.transfer = new Transfer(this);
         this.withdraw = new Withdraw(this);
+        this.deposit = new Deposit(this);
     }
 
     public String request(String method, String path, String params) throws IOException {
+        if (!params.equals("") && method.equals("GET")) {
+            path = path + "?" + params;
+            params = "";
+        }
         String url = BASE_API + path;
         long nonce = System.currentTimeMillis();
         String message = nonce + url + params;
@@ -162,5 +167,9 @@ public class CoinCheck {
 
     public Withdraw withdraw() {
         return withdraw;
+    }
+    
+    public Deposit deposit() {
+        return deposit;
     }
 }

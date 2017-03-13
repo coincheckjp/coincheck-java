@@ -52,13 +52,13 @@ public class Withdraw {
     /**
      * Based on this id, you can repay.
      *
-     * @param params
+     * @param id
      * @throws java.lang.Exception
      *
      * @return JSONObject
      */
-    public JSONObject cancel(JSONObject params) throws Exception {
-        String response = this.client.request("DELETE", "api/withdraws", params.toString());
+    public JSONObject cancel(String id) throws Exception {
+        String response = this.client.request("DELETE", "api/withdraws/" + id, "");
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
