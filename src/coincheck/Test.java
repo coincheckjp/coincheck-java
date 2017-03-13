@@ -1,6 +1,21 @@
-# coincheck-java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package coincheck;
 
-```
+import java.util.HashMap;
+import java.util.Map;
+import org.json.JSONObject;
+
+/**
+ *
+ * @author Administrator
+ */
+public class Test {
+
+    public static void main(String[] args) throws Exception {
         CoinCheck client = new CoinCheck("ACCESS-KEY", "SECRET-KEY");
         /**
          * Public API
@@ -12,15 +27,15 @@
         /**
          * Private API
          */
-        //新規注文
-        //"buy" 指値注文 現物取引 買い
-        //"sell" 指値注文 現物取引 売り
-        //"market_buy" 成行注文 現物取引 買い
-        //"market_sell" 成行注文 現物取引 売り
-        //"leverage_buy" 指値注文 レバレッジ取引新規 買い
-        //"leverage_sell" 指値注文 レバレッジ取引新規 売り
-        //"close_long" 指値注文 レバレッジ取引決済 売り
-        //"close_short" 指値注文 レバレッジ取引決済 買い
+      //新規注文
+      //"buy" 指値注文 現物取引 買い
+      //"sell" 指値注文 現物取引 売り
+      //"market_buy" 成行注文 現物取引 買い
+      //"market_sell" 成行注文 現物取引 売り
+      //"leverage_buy" 指値注文 レバレッジ取引新規 買い
+      //"leverage_sell" 指値注文 レバレッジ取引新規 売り
+      //"close_long" 指値注文 レバレッジ取引決済 売り
+      //"close_short" 指値注文 レバレッジ取引決済 買い
 
         JSONObject orderObj = new JSONObject();
         orderObj.put("rate", "28500");
@@ -102,5 +117,6 @@
         JSONObject transferFromObj = new JSONObject();
         transferFromObj.put("amount", "100");
         transferFromObj.put("currency", "JPY");
-        client.transfer().from_leverage(transferFromObj);    
-```
+        client.transfer().from_leverage(transferFromObj);
+    }
+}
