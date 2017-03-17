@@ -72,7 +72,6 @@ public class Test {
         client.deposit().all(sendParam);
         //ビットコインの高速入金
         JSONObject depositObj = new JSONObject();
-        orderObj.put("id", "2222");
         client.deposit().fast(depositObj);
         // 銀行口座一覧
         client.bankAccount().all();
