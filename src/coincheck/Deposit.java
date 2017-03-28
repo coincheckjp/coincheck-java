@@ -29,7 +29,7 @@ public class Deposit {
      * @return JSONObject
      */
     public JSONObject fast(JSONObject params) throws Exception {
-        String response = this.client.request("POST", "api/lending/borrows", params.toString());
+        String response = this.client.request("POST", "api/deposit_money", params.toString());
         JSONObject jsonObj = new JSONObject(response);
         return jsonObj;
     }
