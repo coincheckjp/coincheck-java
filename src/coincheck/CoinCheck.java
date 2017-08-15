@@ -22,7 +22,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class CoinCheck {
 
-    private final String BASE_API = "https://coincheck.jp/";
+    private final String BASE_API = "https://coincheck.com/";
 
     private HttpClient client;
 
@@ -113,7 +113,7 @@ public class CoinCheck {
                 postReq.setEntity(entity);
                 response = this.client.execute(postReq);
         }
-       
+
         //get response body
         BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
         StringBuffer result = new StringBuffer();
@@ -124,7 +124,7 @@ public class CoinCheck {
         System.out.println(result.toString());
         return result.toString();
     }
-   
+
     public Account account() {
         return account;
     }
@@ -168,7 +168,7 @@ public class CoinCheck {
     public Withdraw withdraw() {
         return withdraw;
     }
-    
+
     public Deposit deposit() {
         return deposit;
     }
